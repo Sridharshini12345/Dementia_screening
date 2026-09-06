@@ -1,0 +1,4 @@
+# Procfile for Render / Heroku-style PaaS deploys of the CogniGuard backend.
+# Render reads the startCommand in render.yaml first; this file is a fallback
+# for platforms (or dashboard setups) that use the Procfile convention.
+web: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120

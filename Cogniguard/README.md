@@ -204,6 +204,18 @@ You do not need a VS Code extension to open `.joblib`; it is not meant to be edi
 - `POST /api/ml/train` (admin only)
   - body: `{ "csv_path": "optional\\path\\to\\dataset.csv" }`
 
+## ☁️ Production Deployment (Vercel + Render)
+
+This is a full‑stack app: the **Next.js frontend** lives on **Vercel**, but the **Flask backend
+must be deployed to a long‑running Python host** (Render/Railway/Fly.io) — Vercel serverless
+functions can't run this backend. 
+
+**Important:** the frontend reads the backend URL from the `NEXT_PUBLIC_API_BASE` build-time
+env var (see `frontend/.env.example`). Set it in your Vercel project before the final build.
+
+👉 **Full, step-by-step instructions in [`DEPLOYMENT.md`](DEPLOYMENT.md)** (Render Blueprint
+config is already included in `backend/render.yaml`).
+
 ## 🐳 Docker Deployment
 
 From project root:

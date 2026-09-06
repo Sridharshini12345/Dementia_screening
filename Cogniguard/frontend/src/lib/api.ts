@@ -1,6 +1,12 @@
 import { getToken } from './auth';
 
-export const API_BASE = 'http://127.0.0.1:5000';
+// API base URL resolution:
+//  - In production (Vercel), set the NEXT_PUBLIC_API_BASE env var in your Vercel
+//    project settings to the deployed backend URL, e.g. https://cogniguard-api.onrender.com
+//  - NEXT_PUBLIC_* variables are inlined at BUILD time by Next.js, so set the value
+//    BEFORE building/redeploying on Vercel.
+//  - Without the env var, it falls back to the local dev backend (localhost:5000).
+export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || 'http://127.0.0.1:5000').replace(/\/+$/, '');
 
 export async function apiFetch(path: string, init: RequestInit = {}) {
     const token = typeof window !== 'undefined' ? getToken() : null;

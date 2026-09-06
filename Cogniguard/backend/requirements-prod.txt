@@ -1,0 +1,41 @@
+# =====================================================================
+# Runtime-only dependencies for production PaaS deployment
+# (Render / Railway / Fly.io / etc.)
+#
+# Using this file keeps production builds small and fast by leaving out
+# optional heavy ML/training libraries that the running app does not
+# import at runtime. The full developer dependency list stays in
+# requirements.txt (used for local dev / Colab model training).
+# =====================================================================
+
+# --- Base web framework ---
+flask==3.0.0
+flask-cors==4.0.0
+pyjwt==2.8.0
+pycryptodome==3.19.0
+python-dotenv==1.0.0
+
+# --- Report PDF generation ---
+reportlab==4.2.2
+
+# --- Messaging / background task plumbing (optional at runtime) ---
+celery==5.3.6
+redis==5.0.1
+twilio==9.2.3
+
+# --- ML runtime deps (required: app.py imports memory_model -> sklearn/joblib) ---
+numpy==1.26.4
+scipy==1.12.0
+joblib==1.3.2
+scikit-learn==1.3.2
+
+# --- Production WSGI server ---
+gunicorn==21.2.0
+
+# =====================================================================
+# OPTIONAL - uncomment to enable on-server training from Hugging Face
+# datasets (the /api/ml/train and /api/ml/train-memory-model endpoints).
+# These add significant build time and bundle size.
+# =====================================================================
+# datasets==2.21.0
+# google-generativeai==0.3.1

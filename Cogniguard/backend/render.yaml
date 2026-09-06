@@ -1,0 +1,47 @@
+# Render Blueprint for the CogniGuard Flask backend.
+# Reference: https://render.com/docs/blueprint-spec
+#
+# How to use with an existing GitHub repo:
+#   1. Push these changes to GitHub.
+#   2. Go to https://dashboard.render.com/blueprints -> "New Blueprint Instance"
+#      and pick your repo (Sridharshini12345/Dementia_screening).
+#      Render reads this file and creates the web service automatically.
+#   3. Open the generated service URL (e.g. https://cogniguard-api.onrender.com)
+#      -> verify it at /api/health.
+#   4. In Vercel (project settings -> Environment Variables) add:
+#        NEXT_PUBLIC_API_BASE = https://cogniguard-api.onrender.com
+#      then redeploy the frontend.
+
+services:
+  - type: web
+    name: cogniguard-api
+    runtime: python
+    # Path to the backend folder relative to the git repo root.
+    # If your repo root already contains backend/ directly, use "backend".
+    rootDir: Cogniguard/backend
+    plan: free
+    healthCheckPath: /api/health
+
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120
+
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      # Public URL used when embedding report/PDF share links.
+      # Update this if Render gives your service a different URL.
+      - key: PUBLIC_BASE_URL
+        value: https://cogniguard-api.onrender.com
+
+      # Optional SMTP settings for emailing reports. Either set them here or
+      # in the Render dashboard (Environment tab) after the service is created.
+      # - key: SMTP_HOST
+      #   value: smtp.gmail.com
+      # - key: SMTP_PORT
+      #   value: 587
+      # - key: SMTP_USERNAME
+      #   value: yourgmail@gmail.com
+      # - key: SMTP_PASSWORD
+      #   value: your_16_char_app_password
+      # - key: SMTP_FROM_EMAIL
+      #   value: yourgmail@gmail.com
