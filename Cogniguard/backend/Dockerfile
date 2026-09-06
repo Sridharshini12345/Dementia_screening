@@ -4,8 +4,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-# Prevents heavy memory consumption during installation
-ENV PIP_NO_CACHE_DIR=1 
+ENV PIP_NO_CACHE_DIR=1
 
 # Install system multimedia dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -22,8 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt /app/requirements.txt
 
-# Force pip to build items sequentially using less memory
-RUN pip install --no-cache-dir --submodules -r /app/requirements.txt
+# Corrected pip install command without the invalid flag
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
 
